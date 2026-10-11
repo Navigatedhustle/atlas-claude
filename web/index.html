@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Atlas · Executive AI on HP ZGX Nano</title>
+<meta name="viewport" content="width=1920, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 fill=%22%23004BDF%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<link rel="stylesheet" href="/static/pygments.css">
+<script src="/static/vendor/chart.umd.js"></script>
+</head>
+<body class="persona-enterprise state-idle">
+<div id="frame">
+  <header id="hdr">
+    <div class="brand">
+      <div class="wordmark" id="wordmark">ATLAS</div>
+      <div class="brand-sub"><span id="org-name">Meridian Dynamics</span><span class="meta" id="org-role">CRO / CFO briefing</span></div>
+    </div>
+    <div class="persona-toggle staff" role="tablist">
+      <button data-persona="enterprise" class="on">ENTERPRISE</button>
+      <button data-persona="university">UNIVERSITY</button>
+      <button data-persona="developer">DEVELOPER</button>
+    </div>
+    <div class="persona-toggle lang-toggle staff">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="es">ES</button>
+    </div>
+    <div class="hdr-right">
+      <div id="offline-pill" class="pill pill-online" title="Live: derived from this machine's routing table">
+        <span class="dot"></span><span id="offline-text">CHECKING NETWORK</span>
+      </div>
+      <div class="hdr-stat" id="cloud-stat" title="Real bytes transmitted on all non-loopback interfaces since the demo started">
+        <div class="lbl">DATA SENT TO CLOUD</div>
+        <div class="val"><span id="cloud-bytes">0 bytes</span> <span class="since" id="cloud-since"></span></div>
+      </div>
+      <div class="hdr-stat"><div class="lbl">ATLAS MEMORY</div><div class="val" id="mem-stat">–</div></div>
+      <div class="hdr-stat"><div class="lbl">GPU</div><div class="val" id="gpu-stat">–</div></div>
+      <div class="hdr-stat"><div class="lbl">TOKENS ON DEVICE</div><div class="val" id="tok-stat">0</div></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="left" class="answer-only">
+      <div class="block hero">
+        <div class="q-row"><div class="label">QUESTION</div><div class="meta" id="route-info"></div></div>
+        <div id="question" class="question">Ask Atlas about Meridian Dynamics.</div>
+        <div class="headline-row">
+          <div>
+            <div class="label" id="headline-label">READY</div>
+            <div id="headline" class="headline">—</div>
+            <div id="headline-sub" class="headline-sub"></div>
+          </div>
+        </div>
+        <div id="pctl" class="pctl hidden">
+          <div class="label">RANGE · P10 / P50 / P90</div>
+          <div class="pctl-bar"><div class="pctl-fill"></div><div class="pctl-mid"></div></div>
+          <div class="pctl-nums"><span id="p10"></span><span id="p50"></span><span id="p90"></span></div>
+        </div>
+      </div>
+      <div class="block chart-block">
+        <div class="label" id="chart-title">CHART</div>
+        <div id="chart-wrap"><canvas id="chart"></canvas>
+          <div id="chart-empty"><div id="suggest"></div></div></div>
+        <div id="table-wrap" class="hidden"></div>
+      </div>
+    </section>
+
+    <section id="dev-left" class="dev-only">
+      <div class="block code-block">
+        <div class="q-row"><div class="label" id="code-title">CODE</div><div id="code-status" class="code-status"></div></div>
+        <div id="dev-question" class="question dev-q">Ask Atlas to write code against the Meridian data.</div>
+        <div id="code-wrap"><div class="meta code-empty">Generated SQL and Python appear here, highlighted. Nothing is called "executed" until it really runs in the sandbox.</div></div>
+        <div id="code-actions" class="code-actions hidden">
+          <button id="run-btn" class="btn-secondary">RUN IN SANDBOX</button>
+          <span class="meta" id="sandbox-note"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="center">
+      <div id="flow" class="flow hidden">
+        <span data-k="heard">HEARD</span><i></i><span data-k="pick">TOOL PICKED</span><i></i><span data-k="math">COMPUTED</span><i></i><span data-k="proof">VERIFIED</span><i></i><span data-k="spoke">SPOKE</span>
+      </div>
+      <div id="orb-wrap">
+        <div id="orb-glow"></div>
+        <div id="orb-core"></div>
+        <canvas id="orb"></canvas>
+        <button id="orb-hit" aria-label="Click and hold the orb to talk"></button>
+        <div id="orb-stage" class="orb-stage"></div>
+        <div id="orb-hint" class="orb-hint">HOLD THE ORB OR SPACE TO TALK</div>
+        <div class="cam-block mini-cam">
+          <div id="cam-wrap">
+            <video id="cam" autoplay muted playsinline></video>
+            <canvas id="cam-overlay"></canvas>
+            <div id="cam-empty"><div>NO CAMERA</div></div>
+          </div>
+          <div class="cam-foot"><span class="label-sm">PEOPLE</span> <span id="people-count">–</span>
+            <span class="meta" id="vision-status"></span><span class="meta hidden" id="cam-label"></span></div>
+        </div>
+      </div>
+      <div id="captions">
+        <div id="transcript" class="transcript"><span class="meta">Hold the orb or the space bar and ask a question.</span></div>
+        <div class="answer-block">
+          <div class="q-row"><div class="label" id="says-label">ATLAS SAYS</div><div id="grounded" class="grounded"></div></div>
+          <div id="answer" class="answer"></div>
+        </div>
+      </div>
+      <ol id="history" class="hidden"></ol>
+    </section>
+
+    <section id="right" class="answer-only">
+      <div class="block how">
+        <div class="label">HOW I GOT THIS</div>
+        <div id="how-idle">
+          <div class="how-summary">Every answer follows the same path, entirely on this box:</div>
+          <ol class="pipeline">
+            <li><b>Ears</b> Nemotron Speech turns your voice into text as you talk.</li>
+            <li><b>Brain</b> Nemotron 3.5 Lightning picks one analytics or knowledge tool.</li>
+            <li><b>Math</b> Python computes every number: Monte Carlo forecasts, regression, scoring.</li>
+            <li><b>Proof</b> Each spoken number is checked against tool output or a cited passage.</li>
+            <li><b>Judgment</b> A System One model gives calibrated yes/no and choice probabilities.</li>
+            <li><b>Voice</b> Magpie speaks the answer, sentence by sentence.</li>
+          </ol>
+        </div>
+        <div id="how-live" class="hidden">
+        <div class="how-tool"><span class="meta">TOOL</span> <span id="how-tool">–</span></div>
+        <div id="how-summary" class="how-summary"></div>
+        <div class="label-sm mt">FORMULA</div>
+        <div id="how-formula" class="formula"></div>
+        <div class="label-sm mt">INPUTS</div>
+        <table id="how-inputs" class="kv"></table>
+        <div id="how-range" class="hidden"><div class="label-sm mt">P10 / P50 / P90</div><div id="how-range-v" class="formula range-v"></div></div>
+        <div class="label-sm mt">STEPS</div>
+        <ul id="how-steps" class="steps"></ul>
+        <div class="label-sm mt">SOURCES</div>
+        <div id="how-sources" class="meta sources"></div>
+        </div>
+      </div>
+      <div class="block s1">
+        <div class="q-row"><div class="label">SYSTEM ONE DECISIONS, ON DEVICE</div><div class="meta" id="s1-ms"></div></div>
+        <div id="s1-items"><div class="meta">Typed judgments with calibrated probabilities appear here.</div></div>
+      </div>
+      <div class="block lat">
+        <div class="q-row"><div class="label">LATENCY</div><div class="meta" id="lat-total"></div></div>
+        <div id="lat-bars"></div>
+      </div>
+    </section>
+
+    <section id="dev-right" class="dev-only">
+      <div class="block out-block">
+        <div class="q-row"><div class="label">SANDBOX OUTPUT</div><div class="meta" id="out-meta"></div></div>
+        <div id="out-wrap"><div class="meta" id="out-empty">Nothing has run yet. Code only shows output after it really runs in the sandbox.</div>
+          <div id="out-chart-wrap" class="hidden"><canvas id="out-chart"></canvas></div>
+          <div id="out-table"></div><pre id="out-stdout" class="stdout hidden"></pre></div>
+      </div>
+      <div class="block endpoint-block">
+        <div class="label">CONNECT YOUR OWN TOOLS</div>
+        <div id="endpoint"></div>
+      </div>
+    </section>
+
+    <section id="brain-pane" class="brain-only">
+      <div class="block brain-block">
+        <div class="q-row"><div class="label" id="brain-title">SECOND BRAIN</div><div class="meta" id="brain-meta"></div></div>
+        <div id="brain-wrap"><canvas id="brain"></canvas><div id="brain-legend"></div><div id="brain-card" class="hidden"></div>
+          <div id="brain-grow" class="hidden"></div></div>
+      </div>
+    </section>
+    <section id="knows-pane" class="brain-only">
+      <div class="block knows-block">
+        <div class="label" id="knows-title">HOW ATLAS KNOWS</div>
+        <div id="knows"></div>
+        <button id="feed-btn" class="btn-primary">FEED THE BRAIN</button>
+        <div id="feed-status" class="meta"></div>
+      </div>
+    </section>
+  </main>
+  <canvas id="pulse-layer"></canvas>
+
+  <div id="model-strip">
+    <div class="ms-label">RUNNING ON THIS BOX</div>
+    <div id="models"></div>
+  </div>
+
+  <div id="controls">
+    <div class="ctl-left staff">
+      <button id="golden-btn" class="btn-secondary">GOLDEN QUESTIONS</button>
+      <form id="ask-form"><input id="ask-input" placeholder="Type a question…" autocomplete="off"><button class="btn-secondary" type="submit">ASK</button></form>
+    </div>
+    <button id="ptt" aria-label="Hold to talk">
+      <svg viewBox="0 0 24 24" width="36" height="36"><path fill="#fff" d="M12 15a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v7a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2z"/></svg>
+      <span id="ptt-text">HOLD TO ASK</span>
+    </button>
+    <div class="ctl-right">
+      <button id="brain-btn" class="btn-secondary" title="Second brain (B)">SECOND BRAIN</button>
+      <button id="brief-btn" class="btn-secondary">EXECUTIVE BRIEF</button>
+      <button id="stage-btn" class="btn-ghost staff" title="Dark stage mode (D)">STAGE MODE</button>
+      <button id="record-btn" class="btn-ghost staff" title="Record mode (R)">RECORD MODE</button>
+    </div>
+  </div>
+  <footer id="footer">All data synthetic. Fictional companies. Runs fully offline on HP ZGX Nano.</footer>
+</div>
+
+<div id="golden-drawer" class="drawer hidden">
+  <div class="drawer-head"><div class="label">GOLDEN QUESTIONS · ONE CLICK</div>
+    <div class="persona-toggle golden-tabs"><button data-tab="enterprise" class="on">ENTERPRISE</button><button data-tab="university">UNIVERSITY</button><button data-tab="developer">DEVELOPER</button></div>
+    <button id="golden-close" class="btn-ghost">CLOSE</button></div>
+  <div id="golden-list"></div>
+  <div class="drawer-foot">
+    <label><input type="checkbox" id="attract-toggle" checked> Attract mode after 60 s idle</label>
+    <label><input type="checkbox" id="voice-toggle" checked> Voice out</label>
+    <button id="net-reset" class="btn-ghost">RESET CLOUD COUNTER</button>
+    <button id="brain-reset" class="btn-ghost">RESET FED DOCUMENTS</button>
+  </div>
+</div>
+
+<div id="record-bar" class="hidden">
+  <button data-layout="16x9" class="on">16:9</button><button data-layout="9x16">9:16</button><button id="record-exit">EXIT</button>
+</div>
+
+<div id="brief-modal" class="hidden">
+  <div class="brief-inner">
+    <div class="drawer-head"><div class="label">EXECUTIVE BRIEF · GENERATED ON THIS BOX</div><button id="brief-close" class="btn-ghost">CLOSE</button></div>
+    <img id="brief-img" alt="Executive brief">
+    <div class="brief-links"><a id="brief-png" download>DOWNLOAD PNG</a><a id="brief-pdf" download>DOWNLOAD PDF</a></div>
+  </div>
+</div>
+
+<div id="net-flash" class="hidden"><div class="nf-big" id="nf-big"></div><div class="nf-sub" id="nf-sub"></div></div>
+<div id="attract-banner" class="hidden">ATTRACT MODE · Step up and hold the button to ask your own question</div>
+<script src="/static/orb.js"></script>
+<script src="/static/brain.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
